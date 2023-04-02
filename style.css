@@ -77,3 +77,24 @@ section h2 {
 .playlist-container p {
   margin-top: 10px;
 } 
+
+#dose-conversion-app {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+#dose-conversion-form {
+  display: grid;
+  gap: 10px;
+}
+
+#dose-conversion-form label,
+#dose-conversion-form select,
+#dose-conversion-form input {
+  width: 100%;
+}
+
+#conversion-result {
+  margin-top: 20px;
+  font-weight: bold;
+}
