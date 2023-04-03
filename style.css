@@ -1,12 +1,21 @@
 /* Reset some default styles */
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 body, h1, h2, h3, h4, h5, h6, p, ul {
   margin: 0;
   padding: 0;
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   line-height: 1.6;
+  color: #333;
 }
 
 ul {
@@ -15,12 +24,16 @@ ul {
 
 a {
   text-decoration: none;
+  color: inherit;
 }
 
 /* Header and navigation */
 header {
-  background: #333;
+  background: rgba(255, 255, 255, 0.9);
   padding: 1rem 0;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
 }
 
 header nav ul {
@@ -37,17 +50,25 @@ header nav ul li:last-child {
 }
 
 header nav ul li a {
-  color: white;
   font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+  transition: color 0.2s;
+}
+
+header nav ul li a:hover {
+  color: #007bff;
 }
 
 /* Homepage */
-.home-page .background-image {
-  width: 100
-  vw;
+.home-page {
+  position: relative;
+}
+
+.background-image {
+  width: 100%;
   height: 100vh;
   object-fit: cover;
-  opacity: 0.7;
   position: absolute;
   z-index: -1;
 }
@@ -62,28 +83,44 @@ header nav ul li a {
 }
 
 .overlay-text h1 {
-  font-size: 3rem;
+  font-size: 4rem;
+  font-weight: 700;
   margin-bottom: 0.5rem;
 }
 
 .overlay-text h2 {
-  font-size: 2rem;
+font-size: 2rem;
+font-weight: 300;
 }
 
 /* Biography page */
 .bio-page {
-  padding: 2rem;
+padding: 2rem;
 }
 
 .bio-page h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+font-size: 2.5rem;
+margin-bottom: 1rem;
+}
+
+.bio-page p {
+font-size: 1.1rem;
+line-height: 1.8;
 }
 
 /* Footer */
 footer {
-  background: #333;
-  color: white;
-  padding: 1rem 0;
-  text-align: center;
+background: #333;
+color: white;
+padding: 1rem 0;
+text-align: center;
+font-size: 0.9rem;
+}
+
+footer a {
+color: white;
+}
+
+footer a:hover {
+color: #007bff;
 }
