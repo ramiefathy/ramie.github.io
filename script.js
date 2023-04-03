@@ -11,14 +11,13 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 const doseConversionRatios = {
   opioids: {
-    morphine: 1,
-    oxycodone: 1.5,
-    hydrocodone: 0.9,
-    hydromorphone: 5,
-    fentanyl: 100,
-    methadone: 3,
-    codeine: 0.15,
-    tramadol: 0.1,
+    "morphine (PO)": 30,
+    "morphine (IV)": 10,
+    oxycodone: 20,
+    hydrocodone: 30,
+    "hydromorphone (PO)": 7.5,
+    "hydromorphone (IV)": 1.5,
+    "codeine (PO)": 200,
   },
   steroids: {
     hydrocortisone: 1,
@@ -47,46 +46,79 @@ function populateDrugSelections() {
   const fromDrugSelect = document.getElementById("from-drug");
   const toDrugSelect = document.getElementById("to-drug");
 
-  function updateDrugOptions() {
-    const drugClass = drugClassSelect.value;
+  drugClassSelect.addEventListener("change", function () {
+    const drugClass = this.value;
+    const drugs = doseConversionRatios[drugClass];
 
     fromDrugSelect.innerHTML = "";
     toDrugSelect.innerHTML = "";
 
-    for (const drug in doseConversionRatios[drugClass]) {
+    for (const drug in drugs) {
       const option = document.createElement("option");
       option.value = drug;
-      option.textContent = drug;
+      option.text = drug;
 
-      fromDrugSelect.appendChild(option.cloneNode(true));
-      toDrugSelect.appendChild(option);
+      fromDrugSelect.add(option);
+      toDrugSelect.add(option.cloneNode(true));
+    }
+  });
+
+  drugClassSelect.dispatchEvent(new Event("change"));
+}
+
+const modalityConversionFactors = {
+  opioids: {
+    "PO-IV": {
+      morphine: 0.33,
+      hydromorphone: 0.2,
+    },
+    "IV-PO": {
+      morphine: 3,
+      hydromorphone: 5,
+    },
+  },
+};
+
+function calculateDoseConversion() {
+  const fromDrug = document.getElementById("from-drug").value;
+  const toDrug = document.getElementById("to-drug").value;
+  const fromDose = parseFloat(document.getElementById("from-dose").value);
+  const fromDelivery = document.getElementById("from-delivery").value;
+  const toDelivery = document.getElementById("to-delivery").value;
+
+  const drugClass = document.getElementById("drug-class").value;
+  const conversionRatioFrom = doseConversionRatios[drugClass][fromDrug];
+  const conversionRatioTo = doseConversionRatios[drugClass][toDrug];
+
+  let convertedDose = (fromDose * conversionRatioFrom) / conversionRatioTo;
+
+if (
+    (drugClass === "opioids" && toDelivery === "IV" &&
+      (toDrug === "oxycodone" || toDrug === "codeine (PO)" || toDrug === "hydrocodone"))
+  ) {
+    const resultElement = document.getElementById("conversion-result");
+    resultElement.textContent = "Error: Invalid conversion. No IV option available for the selected drug.";
+    return;
+  }
+  
+  // Use the verified delivery modality conversion factors specific to opioids
+  if (drugClass === "opioids") {
+    const modalityFactorKey = `${fromDelivery}-${toDelivery}`;
+    const modalityFactor = modalityConversionFactors[drugClass][modalityFactorKey][fromDrug];
+    if (modalityFactor) {
+      convertedDose *= modalityFactor;
     }
   }
 
-  drugClassSelect.addEventListener("change", updateDrugOptions);
-  updateDrugOptions();
+  const resultElement = document.getElementById("conversion-result");
+  resultElement.textContent = `Converted dose: ${convertedDose.toFixed(2)} units`;
 }
 
-function handleDoseConversionForm() {
-  const form = document.getElementById("dose-conversion-form");
-  const result = document.getElementById("conversion-result");
 
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    const drugClass = document.getElementById("drug-class").value;
-    const fromDrug = document.getElementById("from-drug").value;
-    const fromDose = parseFloat(document.getElementById("from-dose").value);
-    const toDrug = document.getElementById("to-drug").value;
-
-    const conversionRatioFrom = doseConversionRatios[drugClass][fromDrug];
-    const conversionRatioTo = doseConversionRatios[drugClass][toDrug];
-
-    const convertedDose = (fromDose * conversionRatioFrom) / conversionRatioTo;
-
-    result.textContent = `Converted dose: ${convertedDose.toFixed(2)} mg`;
-  });
+function setupDoseConversionApp() {
+  populateDrugSelections();
+  const conversionButton = document.getElementById("convert-dose");
+  conversionButton.addEventListener("click", calculateDoseConversion);
 }
 
-populateDrugSelections();
-handleDoseConversionForm();
+document.addEventListener("DOMContentLoaded", setupDoseConversionApp);
