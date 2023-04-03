@@ -28,6 +28,24 @@ body {
   padding: 20px;
 }
 
+/* Responsive styles */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+  }
+
+  .sidebar a {
+    display: inline-block;
+  }
+
+  .content {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
+
 /* Dose Conversion App styles */
 #dose-conversion-app {
   max-width: 400px;
