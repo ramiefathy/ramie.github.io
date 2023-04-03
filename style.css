@@ -1,69 +1,89 @@
+/* Reset some default styles */
+body, h1, h2, h3, h4, h5, h6, p, ul {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
-  display: flex;
+  line-height: 1.6;
 }
 
-.sidebar {
-  width: 200px;
-  height: 100vh;
-  background-color: #333;
-  padding: 20px 0;
-  position: fixed;
+ul {
+  list-style: none;
 }
 
-.sidebar a {
-  display: block;
-  padding: 10px 20px;
-  color: white;
+a {
   text-decoration: none;
 }
 
-.sidebar a:hover {
-  background-color: #555;
+/* Header and navigation */
+header {
+  background: #333;
+  padding: 1rem 0;
 }
 
-.content {
-  margin-left: 200px;
-  padding: 20px;
+header nav ul {
+  display: flex;
+  justify-content: center;
 }
 
-/* Responsive styles */
-@media (max-width: 768px) {
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: static;
-  }
-
-  .sidebar a {
-    display: inline-block;
-  }
-
-  .content {
-    margin-left: 0;
-    padding: 20px;
-  }
+header nav ul li {
+  margin-right: 1rem;
 }
 
-/* Dose Conversion App styles */
-#dose-conversion-app {
-  max-width: 400px;
-  margin: 0 auto;
+header nav ul li:last-child {
+  margin-right: 0;
 }
 
-#dose-conversion-form {
-  display: grid;
-  gap: 10px;
+header nav ul li a {
+  color: white;
+  font-size: 1.1rem;
 }
 
-#dose-conversion-form label,
-#dose-conversion-form select,
-#dose-conversion-form input {
-  width: 100%;
+/* Homepage */
+.home-page .background-image {
+  width: 100
+  vw;
+  height: 100vh;
+  object-fit: cover;
+  opacity: 0.7;
+  position: absolute;
+  z-index: -1;
 }
 
-#conversion-result {
-  margin-top: 20px;
-  font-weight: bold;
+.overlay-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.overlay-text h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.overlay-text h2 {
+  font-size: 2rem;
+}
+
+/* Biography page */
+.bio-page {
+  padding: 2rem;
+}
+
+.bio-page h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Footer */
+footer {
+  background: #333;
+  color: white;
+  padding: 1rem 0;
+  text-align: center;
 }
